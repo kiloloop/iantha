@@ -6,6 +6,12 @@ Iantha is a memory + skills bundle that turns Claude Code into a personal assist
 
 Optionally point Iantha at an Obsidian vault and it doubles as a knowledge-base curator — daily notes, decisions, weekly reviews, and a reading list, all in plain markdown. The pattern is inspired by Andrej Karpathy's [LLM Knowledge Bases](https://x.com/karpathy) framing: raw material lands in your vault, an LLM helps you compile it into something queryable, and you keep editing in your IDE of choice (Obsidian).
 
+## Why
+
+Claude Code remembers nothing between sessions. Mention "remind me Friday" or "I've decided to stop X" — next session starts blank. There's no structure for tasks, routines, or the life context you'd actually want an assistant to know.
+
+Iantha is that structure: memory files auto-captured from chat, six skills for the daily rhythm (`/morning`, `/evening`, `/debrief`, `/obsidian`, `/housekeep`, `/consolidate-learning`), and an optional Obsidian vault. The part you'd build yourself after a month of using Claude Code for life admin.
+
 ## Setup
 
 ```bash
@@ -15,6 +21,8 @@ claude
 ```
 
 That's it. Iantha reads `CLAUDE.md` and the `memory/` directory at session start.
+
+> First setup: 5 minutes. Every day after: just `/morning`.
 
 ## What's Inside
 
@@ -42,6 +50,35 @@ That's it. Iantha reads `CLAUDE.md` and the `memory/` directory at session start
 Plus two more skills installed from [`kiloloop/oacp-skills`](https://oacp.dev/skills/) (see "Shared Skills" below) — `/self-improve`, `/wrap-up`.
 
 Outside those, just talk to Iantha. Mention "tomorrow" or "by Friday" — it auto-captures. Share preferences or routines — it remembers. Ask for context — it surfaces what's relevant.
+
+## Examples
+
+Iantha is days old, so these are demonstrations of the wired-up skills, not Hall-of-Fame production runs. Drop your own once you've used it for a week.
+
+**Auto-capture from chat.** Mention something time-bound in normal conversation and Iantha files it:
+
+> **You:** I need to call mom tomorrow at 6pm.
+>
+> **Iantha:** Added to tasks — call mom Sat May 2 at 18:00 PT. I'll surface it in tomorrow's `/morning` briefing.
+
+**Daily briefing.** `/morning` reads tasks, surfaces what's due or slipped:
+
+```
+$ /morning
+Good morning. Today's plan:
+- 09:00 — Dentist (overdue reschedule from last week)
+- 11:30 — Lunch with Sara (added Mon May 5)
+- Submit Q2 expense report (was P1 yesterday — slipped)
+
+Personal context flagged:
+- It's mom's birthday Friday. Card?
+```
+
+**Decision logging in passing.** Mention a decision and Iantha writes it to `memory/decisions.md` so it doesn't evaporate:
+
+> **You:** I've decided to switch the team standup from daily to weekly. Signal-to-noise was too low.
+>
+> **Iantha:** Logged in `memory/decisions.md` (2026-05-12). Rationale captured. Want me to update the recurring meeting?
 
 ## Memory
 
