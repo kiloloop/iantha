@@ -132,4 +132,4 @@ Greek for "violet flower." Iantha is the flower-pair sister of Iris (the rainbow
 
 ## License
 
-MIT (TBD — license file to be added before public release).
+[Apache 2.0](LICENSE).
