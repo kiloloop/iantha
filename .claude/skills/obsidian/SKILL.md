@@ -37,7 +37,7 @@ The script auto-finds `vault-template/VAULT.md` (pass `--template <path>` to ove
 
 ```
 $ python3 .claude/skills/obsidian/scripts/init_vault.py --vault-dir ~/Documents/MyVault
-Vault: /Users/me/Documents/MyVault
+Vault: ~/Documents/MyVault
 Created: daily/, weekly/, decisions/, tasks/, personal/, artifacts/, _to-delete/, VAULT.md, reading-list.md
 ```
 

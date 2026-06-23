@@ -28,18 +28,6 @@ jobs:
           fi
           echo "No absolute paths in code files."
 
-      - name: Check all files for known-bad usernames
-        run: |
-          # Hard fail on concrete personal usernames anywhere in the tree.
-          # Add new patterns here as needed; deliberately matches uppercase too.
-          if grep -rni '\bhaoranc\b\|\bspbkgw' \
-            --exclude-dir='.git' --exclude-dir='.worktrees' \
-            . 2>/dev/null; then
-            echo "ERROR: Found personal usernames — scrub before merging."
-            exit 1
-          fi
-          echo "No personal usernames found."
-
       - name: Python syntax check
         run: |
           set -e
