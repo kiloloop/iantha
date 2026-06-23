@@ -33,6 +33,15 @@ This produces a report covering:
 
 Surface the report to the user.
 
+### 1b. First-run graduation check (LLM-driven)
+
+If the live memory files now hold real content but first-run scaffolding is still present, offer to graduate it off — the scaffolding loads every session yet only applies to a blank clone.
+
+- **Detect**: the live `memory/*.md` have real content (not just templates) **and** any of these still exist: `memory/*.md.example` seeds, a `## First-Run Notes` section in `CLAUDE.md`, or the first-run demo banner in `memory/MEMORY.md`.
+- **If both**, offer once: *"You're well past first-run — want me to clear out the setup scaffolding? (sample seeds + the demo notes that only apply to a fresh clone)"*
+- **On yes**, run the same graduation as `/setup` step 6: `git rm memory/*.md.example`, drop the MEMORY.md banner, remove the CLAUDE.md `## First-Run Notes` section + the `morning/SKILL.md` fresh-clone demo paragraph — one commit (`chore: graduate off first-run scaffolding`). Keep the `/setup` skill (re-runnable for gap-fill).
+- Skip silently if memory is still blank (genuine fresh clone) or the scaffolding is already gone.
+
 ### 2. Git state (LLM-driven)
 
 Run `git status` and `git log -5 --oneline`. If memory files have uncommitted changes, propose a commit. If the working tree has untracked files in `memory/` or `.claude/`, ask the user before committing them.

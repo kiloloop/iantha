@@ -14,15 +14,29 @@ Iantha is that structure: memory files auto-captured from chat, six skills for t
 
 ## Setup
 
+Your memory is personal — tasks, people, routines — so it belongs in **your own private repo**, not a public fork. Two ways in:
+
+**Use it for real (recommended).** Click **[Use this template](https://github.com/kiloloop/iantha/generate)** → create a **private** repo → clone it:
+
+```bash
+git clone https://github.com/<you>/<your-iantha>.git ~/iantha
+cd ~/iantha
+claude
+```
+
+Now `origin` is your private repo: commit your memory and it follows you across machines, private to you. (Want skill updates later? `git remote add upstream https://github.com/kiloloop/iantha.git` and merge when you like.)
+
+**Just trying it.** A plain clone is fine for a test drive — but `origin` points at this public repo, which you can't push to, so re-point it at your own private repo before relying on cross-machine sync:
+
 ```bash
 git clone https://github.com/kiloloop/iantha.git ~/iantha
 cd ~/iantha
 claude
 ```
 
-That's it. Iantha reads `CLAUDE.md` and the `memory/` directory at session start.
+Either way, Iantha reads `CLAUDE.md` and the `memory/` directory at session start. To make it yours in one sitting, type **`/setup`** — a short, skippable interview that seeds your memory with your real tasks, priorities, routines, and people, then runs `/morning` on it. Prefer to skip it? Just start talking — Iantha learns as you go, and `/setup` is re-runnable later to fill in the gaps.
 
-> First setup: 5 minutes. Every day after: just `/morning`.
+> First setup: use the template, run `claude`, type `/setup` — a few minutes. Every day after: just `/morning`.
 
 ## What's Inside
 
@@ -31,7 +45,7 @@ That's it. Iantha reads `CLAUDE.md` and the `memory/` directory at session start
 ├── CLAUDE.md              # Persona, rules, memory map
 ├── README.md              # You're reading it
 ├── config.yaml            # Optional vault config (vault_dir + subdirs)
-├── .claude/skills/        # /morning, /evening, /debrief, /obsidian, /housekeep, /consolidate-learning
+├── .claude/skills/        # /setup, /morning, /evening, /debrief, /obsidian, /housekeep, /consolidate-learning
 ├── memory/                # Tasks, personal context, decisions, learnings
 └── vault-template/        # Starter VAULT.md to copy into your Obsidian vault
 ```
@@ -40,6 +54,7 @@ That's it. Iantha reads `CLAUDE.md` and the `memory/` directory at session start
 
 | Command | When | What it does |
 |---------|------|--------------|
+| `/setup` | first run (or to fill gaps) | Short onboarding interview — seeds your memory with your real life, then briefs you |
 | `/morning` | start of day | Briefs you on today's tasks, priorities, anything overdue |
 | `/evening` | end of day | Archives what got done, rolls recurring tasks, notes tomorrow |
 | `/debrief` | end of substantive session | Captures decisions, learnings, feedback into memory |
@@ -53,36 +68,48 @@ Outside those, just talk to Iantha. Mention "tomorrow" or "by Friday" — it aut
 
 ## Examples
 
-Iantha is days old, so these are demonstrations of the wired-up skills, not Hall-of-Fame production runs. Drop your own once you've used it for a week.
+These match the sample seeds the repo ships with (`memory/*.md.example`) — your first `/morning` on a fresh clone demos exactly this, labeled as sample data, while your real memory files start blank. The sample persona is a tech lead with a side project about to ship and a life around it — swap in your own.
 
 **Auto-capture from chat.** Mention something time-bound in normal conversation and Iantha files it:
 
 > **You:** I need to call mom tomorrow at 6pm.
 >
-> **Iantha:** Added to tasks — call mom Sat May 2 at 18:00 PT. I'll surface it in tomorrow's `/morning` briefing.
+> **Iantha:** Added to tasks — call Mom, tomorrow 18:00. I'll surface it in tomorrow's `/morning` briefing.
 
 **Daily briefing.** `/morning` reads tasks, surfaces what's due or slipped:
 
+<!-- v0.1.1 follow-up (deferred to weekend Jun 13-14, alongside the #11 smoke-test): replace this code
+     block with a real terminal screenshot of /morning on the seeded data — export at 1x, embed as
+     <img width="700" ...>, verify rendered on github.com in BOTH themes before promote. -->
+
 ```
 $ /morning
-Good morning. Today's plan:
-- 09:00 — Dentist (overdue reschedule from last week)
-- 11:30 — Lunch with Sara (added Mon May 5)
-- Submit Q2 expense report (was P1 yesterday — slipped)
+## Morning Briefing — 2026-06-10
+*(demo from sample data — your memory is still blank)*
 
-Personal context flagged:
-- It's mom's birthday Friday. Card?
+### Today
+- Review Priya's caching RFC — design review is tomorrow, she's waiting on comments
+- Interview debrief for the senior-platform candidate — panel wants it by EOD
+- Buy a birthday card for Mom — her birthday is Friday (she prefers a call, too)
+
+### Overdue
+- Conference expense report (P1 — was due Monday)
+
+### Watch
+- Postgres cutover is the week's main event — runbook dry run Friday
+- sweeper v0.2 ships Saturday; the Show HN draft is still open
+- August trip: flights booked, hotel still open
 ```
 
 **Decision logging in passing.** Mention a decision and Iantha writes it to `memory/decisions.md` so it doesn't evaporate:
 
 > **You:** I've decided to switch the team standup from daily to weekly. Signal-to-noise was too low.
 >
-> **Iantha:** Logged in `memory/decisions.md` (2026-05-12). Rationale captured. Want me to update the recurring meeting?
+> **Iantha:** Logged in `memory/decisions.md` with today's date, rationale captured. Want me to add updating the recurring invite to tasks?
 
 ## Memory
 
-Iantha's persistent state is in `memory/`. The files are templates on first clone — they fill in as you use it.
+Iantha's persistent state is in `memory/`. The live files start **blank** and fill in as you use it; the `*.md.example` files carry **sample seeds** (same convention as `.env.example`) that power the first `/morning` demo — say *"delete the samples"* once you're running on your own data.
 
 | File | Purpose |
 |------|---------|
@@ -95,6 +122,15 @@ Iantha's persistent state is in `memory/`. The files are templates on first clon
 | `MEMORY.md` | Thin index, loaded at session start |
 
 The repo is git-tracked. Commit your memory updates and your context follows you across machines.
+
+## Trust & Privacy
+
+Iantha is files on your disk, nothing else.
+
+- **Nothing leaves your machine** beyond your normal runtime traffic to its model provider (Claude Code → Anthropic, Codex → OpenAI) — no extra services, no telemetry, no third-party calls.
+- **Memory is plain markdown.** Every fact Iantha knows about you is a diffable file in `memory/` you can read, edit, or delete — and `git log` is the audit trail of what changed and when.
+- **No self-granted authority.** Memory is treated as executable policy: Iantha's rules forbid storing anything that would grant itself approval or identity shortcuts (the failure shape Anthropic documents in the Fable 5 system card, §2.3.3) — if such an entry ever appears, it gets flagged to you instead of followed.
+- **The vault is optional and just as local.** Leave `vault_dir` unset and Iantha never touches Obsidian.
 
 ## Knowledge Base mode (optional)
 
@@ -134,6 +170,25 @@ Optional, install per-need: `/doctor`, `/check-inbox`, `/review-loop-*`.
 If you run Iantha alongside other agents (Claude Code + Codex + Gemini, etc.) and want them to share session memory across runtimes, look at [`kiloloop/cortex`](https://github.com/kiloloop/cortex) — a cross-session memory layer (SSOT + debrief inbox) built on the [OACP](https://github.com/kiloloop/oacp) protocol. Cortex publishes its own `/debrief` and `/sync` skills wired to a shared inbox; Iantha's in-repo `/debrief` is the single-agent equivalent.
 
 For solo personal use, you don't need cortex.
+
+## Using with Codex / other runtimes
+
+Iantha has no runtime lock-in — it **ships ready for both Claude Code and Codex** from the same clone. Nothing here is proprietary; the two runtimes just look in differently-named places, so the repo provides both, pointing at one set of files:
+
+| | Claude Code reads | Codex reads | How it's shared |
+|---|---|---|---|
+| **Instructions** | `CLAUDE.md` | `AGENTS.md` | `AGENTS.md` is a symlink to `CLAUDE.md` |
+| **Skills** | `.claude/skills/` | `.agents/skills/` | `.agents/skills/` is a symlink to `.claude/skills/` |
+| **Memory + config** | `memory/`, `config.yaml` | same | shared as-is — not runtime-specific |
+
+So on Codex you **clone and go**, same as Claude Code: launch Codex in the repo and it loads its persona/rules from `AGENTS.md` and discovers the skills under `.agents/skills/` — the very same files Claude Code uses. The two helper scripts (`/obsidian`, `/housekeep`) are pure Python that runs anywhere.
+
+**Customizing carries across both** — edit `CLAUDE.md` to rename the persona or tweak a rule, or edit a `.claude/skills/<name>/SKILL.md`, and both runtimes follow, because the symlinks point at those originals.
+
+**Notes:**
+
+- If your platform doesn't preserve git symlinks (some Windows setups), recreate them from the repo root: `ln -s CLAUDE.md AGENTS.md` and `ln -s ../.claude/skills .agents/skills`.
+- The same shared-file pattern extends to any other `AGENTS.md`-style runtime (Gemini, etc.) — add a symlink at the path that runtime expects.
 
 ## Personalize
 
