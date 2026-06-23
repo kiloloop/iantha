@@ -62,7 +62,7 @@ def main() -> int:
 
     vault = Path(args.vault_dir).expanduser().resolve()
     if vault == Path(__file__).resolve().parent or any(
-        (vault / m).exists() for m in ("CLAUDE.md", "memory")
+        (vault / m).exists() for m in ("CLAUDE.md", "AGENTS.md", "memory")
     ):
         print(
             f"ERROR: {vault} looks like an Iantha repo, not a vault. "

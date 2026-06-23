@@ -69,3 +69,7 @@ Per skill:
 - Don't promote tool gotchas — those go in `memory/learnings.md`.
 - If a lesson reveals a missing rule in `CLAUDE.md`, propose adding the rule there separately.
 - If a skill has zero entries to promote/merge/prune, say so cleanly: "<skill>: nothing to consolidate."
+
+## Learned from runs
+
+(empty — populated as the skill is used)
