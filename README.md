@@ -2,15 +2,21 @@
 
 > Personal chief of staff + knowledge base curator, in markdown. A clone-and-run repo for Claude Code.
 
+<p align="center">
+  <img src="assets/morning-demo.png" width="760" alt="A live Iantha session: auto-capture from chat, the /morning briefing, and decision logging in passing">
+</p>
+
 Iantha is a memory + skills bundle that turns Claude Code into a personal assistant for daily life — tasks, reminders, decisions, routines, anything you'd otherwise keep in your head. Clone the repo, launch Claude Code inside it, and you have an assistant that remembers across sessions.
 
 Optionally point Iantha at an Obsidian vault and it doubles as a knowledge-base curator — daily notes, decisions, weekly reviews, and a reading list, all in plain markdown. The pattern is inspired by Andrej Karpathy's [LLM Knowledge Bases](https://x.com/karpathy) framing: raw material lands in your vault, an LLM helps you compile it into something queryable, and you keep editing in your IDE of choice (Obsidian).
+
+⭐ **Star this repo if you're running Iantha** — it helps others find it.
 
 ## Why
 
 Claude Code remembers nothing between sessions. Mention "remind me Friday" or "I've decided to stop X" — next session starts blank. There's no structure for tasks, routines, or the life context you'd actually want an assistant to know.
 
-Iantha is that structure: memory files auto-captured from chat, six skills for the daily rhythm (`/morning`, `/evening`, `/debrief`, `/obsidian`, `/housekeep`, `/consolidate-learning`), and an optional Obsidian vault. The part you'd build yourself after a month of using Claude Code for life admin.
+Iantha is that structure: memory files auto-captured from chat, a `/setup` onboarding interview plus six daily-rhythm skills (`/morning`, `/evening`, `/debrief`, `/obsidian`, `/housekeep`, `/consolidate-learning`), and an optional Obsidian vault. The part you'd build yourself after a month of using Claude Code for life admin.
 
 ## Setup
 
@@ -75,31 +81,6 @@ These match the sample seeds the repo ships with (`memory/*.md.example`) — you
 > **You:** I need to call mom tomorrow at 6pm.
 >
 > **Iantha:** Added to tasks — call Mom, tomorrow 18:00. I'll surface it in tomorrow's `/morning` briefing.
-
-**Daily briefing.** `/morning` reads tasks, surfaces what's due or slipped:
-
-<!-- v0.1.1 follow-up (deferred to weekend Jun 13-14, alongside the #11 smoke-test): replace this code
-     block with a real terminal screenshot of /morning on the seeded data — export at 1x, embed as
-     <img width="700" ...>, verify rendered on github.com in BOTH themes before promote. -->
-
-```
-$ /morning
-## Morning Briefing — 2026-06-10
-*(demo from sample data — your memory is still blank)*
-
-### Today
-- Review Priya's caching RFC — design review is tomorrow, she's waiting on comments
-- Interview debrief for the senior-platform candidate — panel wants it by EOD
-- Buy a birthday card for Mom — her birthday is Friday (she prefers a call, too)
-
-### Overdue
-- Conference expense report (P1 — was due Monday)
-
-### Watch
-- Postgres cutover is the week's main event — runbook dry run Friday
-- sweeper v0.2 ships Saturday; the Show HN draft is still open
-- August trip: flights booked, hotel still open
-```
 
 **Decision logging in passing.** Mention a decision and Iantha writes it to `memory/decisions.md` so it doesn't evaporate:
 
